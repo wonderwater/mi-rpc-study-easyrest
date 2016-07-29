@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.mi.rpc</groupId>
-  <artifactId>RESTEasy</artifactId>
+  <artifactId>rest-easy</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 
   <name>RESTEasy</name>
@@ -129,4 +129,19 @@
         <version>1.2.17</version>
     </dependency>
   </dependencies>
+  
+  <build>
+      <plugins>
+          <!-- Compiler -->
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <version>3.2</version>
+              <configuration>
+                  <source>1.7</source>
+                  <target>1.7</target>
+              </configuration>
+          </plugin>
+        </plugins>
+    </build>
 </project>
