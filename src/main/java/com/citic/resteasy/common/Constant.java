@@ -8,5 +8,7 @@ public class Constant {
 	
 	public static final String CHARSET_UTF8 = "UTF-8";
 	
+	public static final String DEFAULT_CHARSET = CHARSET_UTF8;
+	
 	public static final String CONTENT_TYPE_JSON = "application/json";
 }

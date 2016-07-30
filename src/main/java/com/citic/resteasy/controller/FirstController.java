@@ -2,7 +2,13 @@ package com.citic.resteasy.controller;
 
 import java.util.List;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
@@ -19,8 +25,9 @@ public class FirstController {
 	@GET
 	@Path("/world")
 	@Produces("application/json")
-	public HelloWorld helloworld() throws Exception {
-		return new HelloWorld("Welcome,HelloWorld");
+	public HelloWorld helloworld(@QueryParam("message") String message) throws Exception {
+		
+		return new HelloWorld(message);
 	}
 
 	@GET
@@ -49,7 +56,7 @@ public class FirstController {
 	@Path("/json")
 	@Consumes({ MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_JSON })
-	public List<Person> save(@QueryParam("multi") boolean isMulti, List<Person> articles) {
+	public List<Person> save(List<Person> articles) {
 		
 		return articles;
 	}
