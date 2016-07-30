@@ -3,11 +3,11 @@ package com.citic.resteasy.common;
 
 public class HttpParamBean {
 	
-	private String charset = "UTF-8";
+	private String charset = Constant.CHARSET_UTF8;
 	
-	private String contentType = "application/json";
+	private String contentType = Constant.CONTENT_TYPE_JSON;
 	
-	private String method = "POST";
+	private String method = Constant.HTTP_METHOD_POST;
 	
 	private Integer readTimeOut = 5000;
 	
