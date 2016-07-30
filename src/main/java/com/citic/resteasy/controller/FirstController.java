@@ -20,7 +20,7 @@ public class FirstController {
 	@Path("/world")
 	@Produces("application/json")
 	public HelloWorld helloworld() throws Exception {
-		return new HelloWorld("Welcome, HelloWorld");
+		return new HelloWorld("Welcome,HelloWorld");
 	}
 
 	@GET
