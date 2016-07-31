@@ -3,7 +3,6 @@ package com.citic.resteasy.server;
 import java.util.Collection;
 
 import javax.annotation.PreDestroy;
-import javax.ws.rs.ext.Provider;
 
 import org.jboss.resteasy.plugins.server.netty.NettyJaxrsServer;
 import org.jboss.resteasy.spi.ResteasyDeployment;
@@ -11,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+
+import com.citic.resteasy.provider.ResteasyFastJsonProvider;
+import com.google.common.collect.Lists;
 
 @Component
 public class NettyServer {
@@ -25,15 +27,13 @@ public class NettyServer {
 	public void start() {
 
 		ResteasyDeployment dp = new ResteasyDeployment();
-
-		Collection<Object> providers = ac.getBeansWithAnnotation(Provider.class).values();
+		
+		ResteasyFastJsonProvider fastjsonProvider = new ResteasyFastJsonProvider();
+		//Collection<Object> providers = ac.getBeansWithAnnotation(Controller.class).values();
 		Collection<Object> controllers = ac.getBeansWithAnnotation(Controller.class).values();
 
-		// extract providers
-		if (providers != null) {
-			dp.getProviders().addAll(providers);
-		}
-		// extract only controller annotated beans
+		dp.getProviders().addAll(Lists.newArrayList(fastjsonProvider));
+		//dp.getProviders().addAll(providers);
 		dp.getResources().addAll(controllers);
 		
 		netty = new NettyJaxrsServer();

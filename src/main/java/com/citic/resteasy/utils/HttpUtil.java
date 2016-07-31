@@ -10,15 +10,17 @@ import java.net.URL;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.alibaba.fastjson.JSON;
+import com.citic.resteasy.common.Constant;
 import com.citic.resteasy.common.HttpParamBean;
 import com.citic.resteasy.exception.HttpConnectException;
 import com.citic.resteasy.exception.HttpTimeoutException;
 
 public class HttpUtil {
-
+	
 	private static Logger logger = Logger.getLogger(HttpUtil.class);
 	
 	/**
@@ -32,13 +34,15 @@ public class HttpUtil {
 	public static String doService (HttpParamBean http) throws Exception {
 		
 		HttpUtil.appendGetURL(http);
+		logger.info("doService # url = " + http.getUrl());
+		logger.info("doService # params = " + http.getParams());
+		
 		HttpURLConnection connection = HttpUtil.initHttpConnection(http);
 		try {
 			
-			if("POST".equals(http.getMethod())) postData(http, connection);
-			
-			logger.info("doService # url = " + http.getUrl());
-			logger.info("doService # params = " + http.getParams());
+			if(Constant.HTTP_METHOD_POST.equals(http.getMethod())) {
+				postData(http, connection);
+			}
 			
 			return getResponseString(http.getCharset(), connection);
 		} catch (SocketTimeoutException e) {
@@ -61,12 +65,15 @@ public class HttpUtil {
 	 */
 	private static void appendGetURL(HttpParamBean http) {
 		
-		if("POST".equals(http.getMethod())) return;
+		boolean isPost = Constant.HTTP_METHOD_POST.equals(http.getMethod());
+		boolean isParamsNull = StringUtils.isBlank(http.getParams());
 		
-		Set<Entry<String, Object>> set = JSON.parseObject(http.getParams()).entrySet();
+		if(isPost || isParamsNull) return;
 		
 		StringBuffer sb = new StringBuffer();
+		Set<Entry<String, Object>> set = JSON.parseObject(http.getParams()).entrySet();
 		for (Entry<String, Object> entry : set) {
+			
 			sb.append("&").append(entry.getKey()).append("=").append(entry.getValue());
 		}
 		
@@ -77,15 +84,15 @@ public class HttpUtil {
 	/**
 	 * 处理POST数据
 	 * @param http
-	 * @param connection
+	 * @param conn
 	 * @throws Exception
 	 */
-	private static void postData(HttpParamBean http, HttpURLConnection connection) throws Exception {
+	private static void postData(HttpParamBean http, HttpURLConnection conn) throws Exception {
 		
 		OutputStreamWriter out = null;
 		try {
 			
-			out = new OutputStreamWriter(connection.getOutputStream(), http.getCharset());
+			out = new OutputStreamWriter(conn.getOutputStream(), http.getCharset());
 			out.write(http.getParams());
 			out.flush();
 		} finally {
@@ -102,8 +109,8 @@ public class HttpUtil {
 
 		URL postUrl = null;
 		HttpURLConnection connection = null;
-		
 		try {
+			
 			postUrl = new URL(http.getUrl());
 			connection = (HttpURLConnection) postUrl.openConnection();
 			
