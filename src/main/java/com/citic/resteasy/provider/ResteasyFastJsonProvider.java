@@ -73,16 +73,14 @@ public class ResteasyFastJsonProvider implements MessageBodyReader<Object>, Mess
 		String line = "";
 		BufferedReader reader = null;
 		StringBuffer sb = new StringBuffer();
-		
 		try {
 			
 			String charset = httpHeaders.getFirst("Accept-Charset");
 			charset = StringUtils.isNotBlank(charset) ? charset : Constant.DEFAULT_CHARSET;
 			reader = new BufferedReader(new InputStreamReader(entityStream, charset));
 			
-			while ((line = reader.readLine()) != null) {
-				sb.append(line);
-			}
+			while ((line = reader.readLine()) != null) sb.append(line);
+			
 		} finally {
 			release(reader);
 		}
