@@ -43,19 +43,17 @@ public class FirstControllerTest {
 	public void test_helloworld_by_get() {
 		
     	try {
-    		for(int i = 0; i < 10; i++) {
-    			
-    			RibbonHttpClient client = new RibbonHttpClient(serverList);
-    			HttpParamBean paramBean = new HttpParamBean();
-    			paramBean.setMethod(Constant.HTTP_METHOD_GET);
-    	    	paramBean.setUrl("/resteasy/hello/world");
-    	    	paramBean.setParams(JSON.toJSONString(new HelloWorld("Hello")));
-    			
-    			String response = client.call(paramBean, false);
-        		System.out.println("response: " + response);
-        		
-        		Assert.assertTrue(StringUtils.isNotBlank(response));
-    		}
+    		
+    		RibbonHttpClient client = new RibbonHttpClient(serverList);
+			HttpParamBean paramBean = new HttpParamBean();
+			paramBean.setMethod(Constant.HTTP_METHOD_GET);
+	    	paramBean.setUrl("/resteasy/hello/world");
+	    	paramBean.setParams(JSON.toJSONString(new HelloWorld("Hello")));
+			
+			String response = client.call(paramBean, false);
+    		System.out.println("response: " + response);
+    		
+    		Assert.assertTrue(StringUtils.isNotBlank(response));
     	} catch(Exception e) {
     		e.printStackTrace();
     		Assert.fail("test hello world fail ....");
@@ -66,33 +64,25 @@ public class FirstControllerTest {
 	public void test_send_data_by_post() {
 		
     	try {
-    		for(int i = 0; i < 10; i++) {
-    			
-    			List<Person> list = new ArrayList<Person> ();
-    			list.add(new Person(1, "person1"));
-    			list.add(new Person(2, "测试人员2"));
-    			
-    			RibbonHttpClient client = new RibbonHttpClient(serverList);
-    			HttpParamBean paramBean = new HttpParamBean();
-    			paramBean.setMethod(Constant.HTTP_METHOD_POST);
-    	    	paramBean.setUrl("/resteasy/hello/json");
-    	    	paramBean.setParams(JSON.toJSONString(list));
-    			
-    			String response = client.call(paramBean, false);
-        		System.out.println("response: " + response);
-        		
-        		Assert.assertTrue(StringUtils.isNotBlank(response));
-    		}
+    		
+    		List<Person> list = new ArrayList<Person> ();
+			list.add(new Person(1, "person1"));
+			list.add(new Person(2, "测试人员2"));
+			
+			RibbonHttpClient client = new RibbonHttpClient(serverList);
+			HttpParamBean paramBean = new HttpParamBean();
+			paramBean.setMethod(Constant.HTTP_METHOD_POST);
+	    	paramBean.setUrl("/resteasy/hello/json");
+	    	paramBean.setParams(JSON.toJSONString(list));
+			
+			String response = client.call(paramBean, false);
+    		System.out.println("response: " + response);
+    		
+    		Assert.assertTrue(StringUtils.isNotBlank(response));
     	} catch(Exception e) {
     		e.printStackTrace();
     		Assert.fail("test hello world fail ....");
     	}
 	}
 	
-	@Test
-	public void test_white_space_replace() {
-		
-		String url = "12   	34";
-		System.out.println(url.replaceAll("[ \t]+", "0"));
-	}
 }
