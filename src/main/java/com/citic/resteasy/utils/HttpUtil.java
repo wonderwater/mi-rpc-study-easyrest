@@ -71,7 +71,8 @@ public class HttpUtil {
 		if(isPost || isParamsNull) return;
 		
 		StringBuffer sb = new StringBuffer();
-		Set<Entry<String, Object>> set = JSON.parseObject(http.getParams()).entrySet();
+		String params = http.getParams().replaceAll("[ \t]+", "");
+		Set<Entry<String, Object>> set = JSON.parseObject(params).entrySet();
 		for (Entry<String, Object> entry : set) {
 			
 			sb.append("&").append(entry.getKey()).append("=").append(entry.getValue());
@@ -106,7 +107,7 @@ public class HttpUtil {
 	 * @return
 	 */
 	private static HttpURLConnection initHttpConnection(HttpParamBean http) throws Exception {
-
+		
 		URL postUrl = null;
 		HttpURLConnection connection = null;
 		try {
@@ -150,7 +151,6 @@ public class HttpUtil {
 		try {
 			
 			logger.info("doService # response code = " + conn.getResponseCode());
-			
 			reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), codeset));
 			while ((line = reader.readLine()) != null) {
 				sb.append(line);

@@ -17,6 +17,7 @@ import com.citic.resteasy.common.Constant;
 import com.citic.resteasy.common.HttpParamBean;
 import com.citic.resteasy.controller.request.Person;
 import com.citic.resteasy.httpclient.RibbonHttpClient;
+import com.citic.resteasy.pojo.response.HelloWorld;
 import com.citic.resteasy.server.NettyServer;
 import com.netflix.loadbalancer.Server;
 
@@ -48,7 +49,7 @@ public class FirstControllerTest {
     			HttpParamBean paramBean = new HttpParamBean();
     			paramBean.setMethod(Constant.HTTP_METHOD_GET);
     	    	paramBean.setUrl("/resteasy/hello/world");
-    	    	paramBean.setParams("{'message':'Welcome,HelloWorld'}");
+    	    	paramBean.setParams(JSON.toJSONString(new HelloWorld("Hello")));
     			
     			String response = client.call(paramBean, false);
         		System.out.println("response: " + response);
@@ -86,5 +87,12 @@ public class FirstControllerTest {
     		e.printStackTrace();
     		Assert.fail("test hello world fail ....");
     	}
+	}
+	
+	@Test
+	public void test_white_space_replace() {
+		
+		String url = "12   	34";
+		System.out.println(url.replaceAll("[ \t]+", "0"));
 	}
 }

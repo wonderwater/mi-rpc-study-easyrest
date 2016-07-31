@@ -29,11 +29,9 @@ public class NettyServer {
 		ResteasyDeployment dp = new ResteasyDeployment();
 		
 		ResteasyFastJsonProvider fastjsonProvider = new ResteasyFastJsonProvider();
-		//Collection<Object> providers = ac.getBeansWithAnnotation(Controller.class).values();
 		Collection<Object> controllers = ac.getBeansWithAnnotation(Controller.class).values();
 
 		dp.getProviders().addAll(Lists.newArrayList(fastjsonProvider));
-		//dp.getProviders().addAll(providers);
 		dp.getResources().addAll(controllers);
 		
 		netty = new NettyJaxrsServer();
